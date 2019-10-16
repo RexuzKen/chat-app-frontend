@@ -1,0 +1,76 @@
+<div class="card m-4">
+  <div class="card-header">
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <form class="form-inline">
+          <div class="form-group row">
+            <input
+              type="text"
+              class="form-control col-7 m-2"
+              placeholder="Ingrese nombre..."
+              [(ngModel)]="mensaje.username"
+              name="username"
+              *ngIf="!conectado"
+            />
+            <button
+              class="btn btn-success col-4"
+              (click)="conectarse()"
+              *ngIf="!conectado"
+              [disabled]="!mensaje.username"
+            >
+              Conectarse
+            </button>
+          </div>
+        </form>
+      </li>
+      <li class="nav-item">
+        <button
+          class="btn btn-warning"
+          (click)="desconectarse()"
+          *ngIf="conectado"
+        >
+          Desconectarse
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="card-body"
+    style="overflow-y: scroll;height: 360px;"
+    *ngIf="conectado"
+  >
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let mensaje of mensajes">
+        <span *ngIf="mensaje.tipo == 'MENSAJE'"
+          >{{ mensaje.fecha | date: "shortTime" }}
+          <span [ngStyle]="{ color: mensaje.color }">{{
+            mensaje.username
+          }}</span>
+          dice:<br />{{ mensaje.texto }}</span
+        >
+        <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'">
+          {{ mensaje.fecha | date: "shortTime" }} : {{ mensaje.texto }}
+          <span [ngStyle]="{ color: mensaje.color }">{{
+            mensaje.username
+          }}</span>
+          se ha conectado.
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer" *ngIf="conectado">
+    <form>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Escribe un mensaje..."
+        [(ngModel)]="mensaje.texto"
+        name="texto"
+      />
+
+      <button class="btn btn-primary btn-block" (click)="enviarMensaje()">
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
