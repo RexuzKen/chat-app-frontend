@@ -24,11 +24,7 @@
         </form>
       </li>
       <li class="nav-item">
-        <button
-          class="btn btn-warning"
-          (click)="desconectarse()"
-          *ngIf="conectado"
-        >
+        <button class="btn btn-warning" (click)="desconectarse()" *ngIf="conectado">
           Desconectarse
         </button>
       </li>
@@ -36,29 +32,28 @@
   </div>
   <div
     class="card-body"
+    #scrollChat
+    [scrollTop]="scrollChat.scrollHeight"
     style="overflow-y: scroll;height: 360px;"
     *ngIf="conectado"
   >
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let mensaje of mensajes">
         <span *ngIf="mensaje.tipo == 'MENSAJE'"
-          >{{ mensaje.fecha | date: "shortTime" }}
-          <span [ngStyle]="{ color: mensaje.color }">{{
-            mensaje.username
-          }}</span>
+          >{{ mensaje.fecha | date: 'shortTime' }}
+          <span [ngStyle]="{ color: mensaje.color }">{{ mensaje.username }}</span>
           dice:<br />{{ mensaje.texto }}</span
         >
         <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'">
-          {{ mensaje.fecha | date: "shortTime" }} : {{ mensaje.texto }}
-          <span [ngStyle]="{ color: mensaje.color }">{{
-            mensaje.username
-          }}</span>
+          {{ mensaje.fecha | date: 'shortTime' }} : {{ mensaje.texto }}
+          <span [ngStyle]="{ color: mensaje.color }">{{ mensaje.username }}</span>
           se ha conectado.
         </span>
       </li>
     </ul>
   </div>
   <div class="card-footer" *ngIf="conectado">
+    <div class="text-center py-2">{{ escribiendo }}</div>
     <form>
       <input
         type="text"
@@ -66,6 +61,7 @@
         placeholder="Escribe un mensaje..."
         [(ngModel)]="mensaje.texto"
         name="texto"
+        (keyup)="escribiendoMensaje()"
       />
 
       <button class="btn btn-primary btn-block" (click)="enviarMensaje()">

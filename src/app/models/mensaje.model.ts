@@ -1,7 +1,7 @@
 export class Mensaje {
-  texto: string;
-  fecha: Date;
-  username: string;
-  tipo: string;
-  color: string;
+  texto: string = '';
+  fecha: Date = null;
+  username: string = null;
+  tipo: string = null;
+  color: string = null;
 }
